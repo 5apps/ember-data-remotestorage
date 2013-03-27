@@ -22,7 +22,7 @@ module("DS.RSAdapter", {
 
 test("existence", function() {
   ok(DS.RSAdapter, "RSAdapter added to DS namespace");
-  ok(window.remoteStorage, "remoteStorage exists");
+  ok(remoteStorage, "remoteStorage exists");
 });
 
 test("find", function() {
