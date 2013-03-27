@@ -45,7 +45,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
 
     rsClient.getObject(id).then(
       function(result) {
-        console.log(result);
+        Ember.debug(result);
         delete(result['@type']);
         self.didFindRecord(store, type, result, id);
       }
@@ -59,7 +59,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
 
     rsClient.getAll('').then(
       function(response) {
-        console.log('response', response);
+        Ember.debug('response', response);
         var results = [];
         for (var id in response) {
           // TODO uses of didSaveRecord are not implemented properly yet
@@ -73,7 +73,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
         self.didFindAll(store, type, results);
       },
       function(error) {
-        console.log("error while fetching records", error);
+        Ember.debug("error while fetching records", error);
       }
     );
   },
@@ -83,20 +83,20 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
     rsClient = this._rsClient(type);
     var self = this;
 
-    console.log("about to create single record");
+    Ember.debug("about to create single record");
 
     serialized = self._removeNullValues(record.serialize());
     newObject = rsClient.buildObject(rsType, serialized);
     rsClient.saveObject(newObject).then(
       function() {
         delete(newObject['@type']);
-        console.log("created record", record, newObject);
+        Ember.debug("created record", record, newObject);
         Ember.run(function() {
           self.didCreateRecord(store, type, record, newObject);
         });
       },
       function(error) {
-        console.log("error while saving record", error);
+        Ember.debug("error while saving record", error);
         if (error.errors) {
           store.recordWasInvalid(record, error.errors);
         } else {
@@ -111,7 +111,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
   },
 
   updateRecord: function(store, type, record) {
-    console.log("about to update record: ", record);
+    Ember.debug("about to update record: ", record);
 
     rsType = type.rs_type;
     rsClient = this._rsClient(type);
@@ -123,13 +123,13 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
     rsClient.storeObject(rsType, id, serialized).then(
       function() {
         delete(serialized['@type'])
-        console.log("updated record", record, serialized);
+        Ember.debug("updated record", record, serialized);
         Ember.run(function() {
           self.didSaveRecord(store, type, record, serialized);
         });
       },
       function(error) {
-        console.log("error while saving record", error);
+        Ember.debug("error while saving record", error);
         store.recordWasError(record);
       }
     );
@@ -144,11 +144,11 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
     rsClient = this._rsClient(type);
     var self = this;
 
-    console.log("about to delete record");
+    Ember.debug("about to delete record");
 
     var id = record.get('id');
     rsClient.remove(id).then(function() {
-      console.log('deleted record');
+      Ember.debug('deleted record');
       Ember.run(function() {
         self.didDeleteRecord(store, type, record);
       });
