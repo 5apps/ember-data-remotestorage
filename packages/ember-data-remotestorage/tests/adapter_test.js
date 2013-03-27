@@ -1,14 +1,21 @@
-var adapter, store, List;
+var adapter, store;
+var Todo, todo, todos;
 
 module("DS.RSAdapter", {
   setup: function() {
     Ember.run(function() {
-      List = DS.Model.extend({
-        name: DS.attr('string')
-      });
-
       adapter = DS.RSAdapter.create();
       store = DS.Store.create({adapter: adapter});
+    });
+
+    Todo = DS.Model.extend({
+      title: DS.attr('string'),
+      completed: DS.attr('boolean')
+    });
+
+    Todo.reopenClass({
+      rs_type: 'todo',
+      rs_module: 'todos'
     });
   },
 
