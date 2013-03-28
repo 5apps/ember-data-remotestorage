@@ -15,6 +15,10 @@ module("DS.RSAdapter", {
       completed: DS.attr('boolean')
     });
 
+    Todo.toString = function() {
+      return "App.Todo";
+    };
+
     Todo.reopenClass({
       rs_type: 'todo',
       rs_module: 'todos'
