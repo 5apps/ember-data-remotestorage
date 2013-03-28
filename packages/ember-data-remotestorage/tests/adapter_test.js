@@ -63,7 +63,16 @@ test("find", function() {
   equal(list.length, 0, "list is empty");
 });
 
-test("create a todo", function() {
+asyncTest("create a todo", function() {
+  expect(4);
+
+  adapter.didCreateRecord = function(store, type, record, newObject) {
+    equal(newObject["title"], "Homework");
+    equal(type, "App.Todo");
+
+    start();
+  };
+
   Ember.run(function() {
     todo = store.createRecord(Todo, { title: "Homework" });
   });
