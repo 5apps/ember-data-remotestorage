@@ -131,3 +131,32 @@ asyncTest("find a single todo", function() {
     start();
   };
 });
+
+asyncTest("delete a record", function() {
+  expect(2);
+
+  var id;
+
+  adapter.didDeleteRecord = function(store, type, record) {
+    equal(type, "App.Todo");
+    equal(id, record.get('id'));
+
+    start();
+  };
+
+  Ember.run(function() {
+    todo = Todo.createRecord({ title: "Homework", completed: false });
+
+    todo.addObserver('id', function() {
+      todo.addObserver('stateManager.currentPath', function() {
+        if (todo.get('stateManager.currentPath') === 'rootState.loaded.saved') {
+          id = todo.get('id');
+          todo.deleteRecord();
+          store.commit();
+        }
+      });
+    });
+
+    store.commit();
+  });
+});
