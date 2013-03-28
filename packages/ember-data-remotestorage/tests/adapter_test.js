@@ -132,6 +132,37 @@ asyncTest("find a single todo", function() {
   };
 });
 
+asyncTest("update a todo", function() {
+  expect(3);
+
+  var id;
+
+  adapter.didSaveRecord = function(store, type, record, data) {
+    equal(data['id'], id);
+    equal(data['title'], 'Laundry');
+    equal(data['completed'], true);
+
+    start();
+  };
+
+  Ember.run(function() {
+    todo = Todo.createRecord({ title: "Homework", completed: false });
+
+    todo.addObserver('id', function() {
+      todo.addObserver('stateManager.currentPath', function() {
+        if (todo.get('stateManager.currentPath') === 'rootState.loaded.saved') {
+          id = todo.get('id');
+          todo.set('title', 'Laundry');
+          todo.set('completed', true);
+          store.commit();
+        }
+      });
+    });
+
+    store.commit();
+  });
+});
+
 asyncTest("delete a record", function() {
   expect(2);
 
