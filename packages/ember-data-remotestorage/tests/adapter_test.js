@@ -19,6 +19,11 @@ module("DS.RSAdapter", {
       rs_type: 'todo',
       rs_module: 'todos'
     });
+
+    stop();
+    remoteStorage.claimAccess('todos', 'rw').then(function() {
+      start();
+    });
   },
 
   teardown: function() {
