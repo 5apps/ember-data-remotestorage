@@ -90,6 +90,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
     rsClient.saveObject(newObject).then(
       function() {
         delete(newObject['@type']);
+        delete(newObject['@context']);
         Ember.debug("created record", record, newObject);
         Ember.run(function() {
           self.didCreateRecord(store, type, record, newObject);
@@ -123,6 +124,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
     rsClient.storeObject(rsType, id, serialized).then(
       function() {
         delete(serialized['@type'])
+        delete(serialized['@context'])
         Ember.debug("updated record", record, serialized);
         Ember.run(function() {
           self.didSaveRecord(store, type, record, serialized);
