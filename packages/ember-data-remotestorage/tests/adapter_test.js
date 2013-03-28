@@ -1,6 +1,6 @@
 var get = Ember.get, set = Ember.set;
 
-var adapter, store;
+var adapter, store, rsClient;
 var Todo, todo, todos;
 
 module("DS.RSAdapter", {
@@ -24,6 +24,8 @@ module("DS.RSAdapter", {
       rs_module: 'todos'
     });
 
+    rsClient = remoteStorage.todos.client;
+
     stop();
     remoteStorage.claimAccess('todos', 'rw').then(function() {
       start();
@@ -35,6 +37,7 @@ module("DS.RSAdapter", {
       adapter.destroy();
       store.destroy();
     });
+    remoteStorage.flushLocal();
   }
 });
 
@@ -83,4 +86,25 @@ asyncTest("create a todo", function() {
     store.commit();
     expectState("saving");
   });
+});
+
+asyncTest("find all todos", function() {
+  expect(3);
+
+  var newObject = rsClient.buildObject("todo", { title: "Homework", completed: true });
+  rsClient.saveObject(newObject).then(function() {
+    Ember.run(function() {
+      todos = store.find(Todo);
+
+      expectState('loaded');
+    });
+  });
+
+  adapter.didFindAll = function(store, type, results) {
+    var result = results[0];
+    equal(result['title'], "Homework");
+    equal(result['completed'], true);
+
+    start();
+  };
 });
