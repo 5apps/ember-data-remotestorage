@@ -30,6 +30,8 @@ module("DS.RSAdapter", {
     remoteStorage.claimAccess('todos', 'rw').then(function() {
       start();
     });
+
+    remoteStorage.util.silenceAllLoggers();
   },
 
   teardown: function() {
