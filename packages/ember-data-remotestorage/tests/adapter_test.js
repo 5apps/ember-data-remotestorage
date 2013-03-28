@@ -110,3 +110,24 @@ asyncTest("find all todos", function() {
     start();
   };
 });
+
+asyncTest("find a single todo", function() {
+  expect(4);
+
+  var newObject = rsClient.buildObject("todo", { title: "Homework", completed: true });
+  rsClient.saveObject(newObject).then(function() {
+    Ember.run(function() {
+      todos = store.find(Todo, newObject['id']);
+
+      expectState('loaded');
+    });
+  });
+
+  adapter.didFindRecord = function(store, type, result, id) {
+    equal(result['title'], "Homework");
+    equal(result['completed'], true);
+    equal(id, newObject['id']);
+
+    start();
+  };
+});
