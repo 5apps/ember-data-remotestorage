@@ -63,11 +63,6 @@ test("existence", function() {
   ok(remoteStorage, "remoteStorage exists");
 });
 
-test("find", function() {
-  var list = [];
-  equal(list.length, 0, "list is empty");
-});
-
 asyncTest("create a todo", function() {
   expect(4);
 
@@ -91,14 +86,13 @@ asyncTest("create a todo", function() {
 });
 
 asyncTest("find all todos", function() {
-  expect(3);
+  expect(2);
 
   var newObject = rsClient.buildObject("todo", { title: "Homework", completed: true });
   rsClient.saveObject(newObject).then(function() {
     Ember.run(function() {
       todos = store.find(Todo);
-
-      expectState('loaded');
+      expectStates('loaded');
     });
   });
 
@@ -112,14 +106,12 @@ asyncTest("find all todos", function() {
 });
 
 asyncTest("find a single todo", function() {
-  expect(4);
+  expect(3);
 
   var newObject = rsClient.buildObject("todo", { title: "Homework", completed: true });
   rsClient.saveObject(newObject).then(function() {
     Ember.run(function() {
-      todos = store.find(Todo, newObject['id']);
-
-      expectState('loaded');
+      todo = store.find(Todo, newObject['id']);
     });
   });
 
