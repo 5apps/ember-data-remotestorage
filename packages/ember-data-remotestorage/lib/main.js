@@ -10,8 +10,6 @@ DS.LSSerializer = DS.JSONSerializer.extend({
     });
   },
 
-  // extract expects a root key, we don't want to save all these keys to
-  // localStorage so we generate the root keys here
   extract: function(loader, json, type, record) {
     this._super(loader, this.rootJSON(json, type), type, record);
   },
@@ -22,7 +20,7 @@ DS.LSSerializer = DS.JSONSerializer.extend({
 
   rootJSON: function(json, type, pluralize) {
     var root = this.rootForType(type);
-    if (pluralize == 'pluralize') { root = this.pluralize(root); }
+    if (pluralize === 'pluralize') { root = this.pluralize(root); }
     var rootedJSON = {};
     rootedJSON[root] = json;
     return rootedJSON;
@@ -66,7 +64,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
           // after deleting a record, the id is still in the response object
           if (typeof(response[id]) !== 'undefined') {
             result = response[id];
-            delete(result['@type']);
+            self._removeJSONLDFields(result);
             results.push(Ember.copy(result));
           }
         }
@@ -89,8 +87,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
     newObject = rsClient.buildObject(rsType, serialized);
     rsClient.saveObject(newObject).then(
       function() {
-        delete(newObject['@type']);
-        delete(newObject['@context']);
+        self._removeJSONLDFields(newObject);
         Ember.debug("created record", record, newObject);
         Ember.run(function() {
           self.didCreateRecord(store, type, record, newObject);
@@ -123,8 +120,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
 
     rsClient.storeObject(rsType, id, serialized).then(
       function() {
-        delete(serialized['@type'])
-        delete(serialized['@context'])
+        self._removeJSONLDFields(serialized);
         Ember.debug("updated record", record, serialized);
         Ember.run(function() {
           self.didSaveRecord(store, type, record, serialized);
@@ -172,6 +168,11 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
     });
 
     return object;
+  },
+
+  _removeJSONLDFields: function(object) {
+    delete(object['@type']);
+    delete(object['@context']);
   },
 
   _rsClient: function(type) {
