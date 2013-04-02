@@ -37,7 +37,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
   serializer: DS.LSSerializer,
 
   find: function(store, type, id) {
-    var rsType = type.rs_type;
+    var rsType = type.remoteStorage.type;
     var rsClient = this._rsClient(type);
     var self = this;
 
@@ -51,7 +51,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
   },
 
   findAll: function(store, type) {
-    var rsType = type.rs_type;
+    var rsType = type.remoteStorage.type;
     var rsClient = this._rsClient(type);
     var self = this;
 
@@ -77,7 +77,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
   },
 
   createRecord: function(store, type, record) {
-    rsType = type.rs_type;
+    rsType = type.remoteStorage.type;
     rsClient = this._rsClient(type);
     var self = this;
 
@@ -111,7 +111,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
   updateRecord: function(store, type, record) {
     Ember.debug("about to update record: ", record);
 
-    rsType = type.rs_type;
+    rsType = type.remoteStorage.type;
     rsClient = this._rsClient(type);
     var self = this;
 
@@ -138,7 +138,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
   },
 
   deleteRecord: function(store, type, record) {
-    rsType = type.rs_type;
+    rsType = type.remoteStorage.type;
     rsClient = this._rsClient(type);
     var self = this;
 
@@ -176,7 +176,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
   },
 
   _rsClient: function(type) {
-    return eval('remoteStorage.'+type.rs_module+'.client');
+    return eval('remoteStorage.'+type.remoteStorage.module+'.client');
   }
 
 });

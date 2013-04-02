@@ -20,8 +20,10 @@ module("DS.RSAdapter", {
     };
 
     Todo.reopenClass({
-      rs_type: 'todo',
-      rs_module: 'todos'
+      remoteStorage: {
+        module: 'todos',
+        type: 'todo'
+      }
     });
 
     rsClient = remoteStorage.todos.client;
