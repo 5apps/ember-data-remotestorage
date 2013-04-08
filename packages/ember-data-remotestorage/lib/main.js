@@ -1,21 +1,7 @@
-DS.LSSerializer = DS.JSONSerializer.extend({
-
-  addBelongsTo: function(data, record, key, association) {
-    data[key] = record.get(key + '.id');
-  },
-
-  addHasMany: function(data, record, key, association) {
-    data[key] = record.get(key).map(function(record) {
-      return record.get('id');
-    });
-  },
+DS.RSSerializer = DS.JSONSerializer.extend({
 
   extract: function(loader, json, type, record) {
     this._super(loader, this.rootJSON(json, type), type, record);
-  },
-
-  extractMany: function(loader, json, type, records) {
-    this._super(loader, this.rootJSON(json, type, 'pluralize'), type, records);
   },
 
   rootJSON: function(json, type, pluralize) {
@@ -34,7 +20,7 @@ DS.RSAdapter = DS.Adapter.extend(Ember.Evented, {
     this._super.apply(this, arguments);
   },
 
-  serializer: DS.LSSerializer,
+  serializer: DS.RSSerializer,
 
   find: function(store, type, id) {
     var rsType = type.remoteStorage.type;
