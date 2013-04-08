@@ -1,8 +1,8 @@
 # Ember Data remoteStorage Adapter
 
-This library provides an adapter for [Ember Data](http://github.com/emberjs/data) for allowing to store application models in [remoteStorage](http://remotestorage.io).
+This library provides an adapter for [Ember Data](http://github.com/emberjs/data), allowing you to store application models in [remoteStorage](http://remotestorage.io).
 
-It is currently tested against Ember Data revision 11.
+It's currently tested against Ember Data revision 11.
 
 ## Usage
 
@@ -15,7 +15,7 @@ App.Store = DS.Store.extend({
 });
 ```
 
-Every remoteStorage module you want to use needs to define a common data type using JSON Schema and at least export the private client as `client`:
+remoteStorage modules you want to use need to define a data type using JSON Schema and at least export the private client as `client`:
 
 ```javascript
 remoteStorage.defineModule('tasks', function(privateClient, publicClient) {
@@ -40,6 +40,8 @@ remoteStorage.defineModule('tasks', function(privateClient, publicClient) {
 
   return {
     exports: {
+      // Add this to existing modules, as none of them will export
+      // the client by default!
       client: privateClient
     }
   };
@@ -55,7 +57,8 @@ App.Todo = DS.Model.extend({
 });
 ```
 
-You also need to define the module _name_ and _type_ on the model's class:
+And to make the remoteStorage magic apply, you add the module name and data
+type to the model class:
 
 ```javascript
 App.Todo.reopenClass({
@@ -68,7 +71,7 @@ App.Todo.reopenClass({
 
 ## Todo
 
-* Relationships between two or more Ember models are not supported yet.
+* Relationships between Ember models are not supported yet.
 
 ## Helpful Commands
 
