@@ -1,6 +1,7 @@
-# Ember Data remoteStorage Adapter
+# Ember Data remoteStorage Adapter [![Build Status](https://travis-ci.org/5apps/ember-data-remotestorage.png?branch=master)](https://travis-ci.org/5apps/ember-data-remotestorage)
 
-This library provides an adapter for [Ember Data](http://github.com/emberjs/data), allowing you to store application models in [remoteStorage](http://remotestorage.io).
+This library provides an adapter for [Ember Data](http://github.com/emberjs/data),
+allowing you to store application models in [remoteStorage](http://remotestorage.io).
 
 It's currently tested against Ember Data revision 11.
 
@@ -15,7 +16,8 @@ App.Store = DS.Store.extend({
 });
 ```
 
-remoteStorage modules you want to use need to define a data type using JSON Schema and at least export the private client as `client`:
+remoteStorage modules you want to use need to define a data type using JSON
+Schema and at least export the private client as `client`:
 
 ```javascript
 remoteStorage.defineModule('tasks', function(privateClient, publicClient) {
