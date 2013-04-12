@@ -1,4 +1,6 @@
-# Ember Data remoteStorage Adapter [![Build Status](https://travis-ci.org/5apps/ember-data-remotestorage.png?branch=master)](https://travis-ci.org/5apps/ember-data-remotestorage)
+[![Build Status](https://travis-ci.org/5apps/ember-data-remotestorage.png?branch=master)](https://travis-ci.org/5apps/ember-data-remotestorage)
+
+# Ember Data remoteStorage Adapter
 
 This library provides an adapter for [Ember Data](http://github.com/emberjs/data),
 allowing you to store application models in [remoteStorage](http://remotestorage.io).
