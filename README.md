@@ -13,8 +13,8 @@ Include `ember-data-remotestorage.js` in your app and tell your store to use it:
 
 ```javascript
 App.Store = DS.Store.extend({
-	revision: 11,
-	adapter: DS.RSAdapter.create()
+  revision: 11,
+  adapter: DS.RSAdapter.create()
 });
 ```
 
@@ -56,8 +56,8 @@ On your Ember model you specify the attributes as usual:
 
 ```javascript
 App.Todo = DS.Model.extend({
-	title: DS.attr('string'),
-	completed: DS.attr('boolean')
+  title: DS.attr('string'),
+  completed: DS.attr('boolean')
 });
 ```
 
